@@ -1,0 +1,194 @@
+# PagedAttention Experiment Output (English Version)
+
+```
+============================================================
+🧪 PagedAttention Memory Allocation Comparison Experiment
+🎯 Goal: Understanding how PagedAttention improves memory utilization
+============================================================
+🔍 Checking experimental environment...
+🐍 Python version: 3.12.3 (main, Jun 18 2025, 17:59:45) [GCC 13.3.0]
+✅ Running in virtual environment
+✅ PyTorch version: 2.7.0+cu126
+✅ CUDA available: True
+📊 GPU count: 1
+   GPU 0: NVIDIA GeForce RTX 4090
+✅ Transformers version: 4.53.2
+✅ vLLM version: 0.9.2
+
+==================================================
+🔬 Phase 1: Traditional Transformers Method Test
+💡 Characteristics: Sequential request processing, max-length memory allocation
+==================================================
+⏳ Running traditional method test...
+⚠️  NVML unavailable, using PyTorch for GPU monitoring
+🔄 Starting traditional method test...
+
+=== Initial State ===
+Time: 13:21:47
+🔥 GPU_0: 0.00GB allocated / 23.62GB total
+--------------------------------------------------
+📥 Loading traditional Transformers model...
+
+=== Model Loading Complete ===
+Time: 13:21:49
+🔥 GPU_0: 0.25GB allocated / 23.62GB total
+--------------------------------------------------
+📝 Processing 4 inputs of different lengths...
+
+📄 Processing input 1: length 6 characters
+⏱️  Generation time: 0.46s
+📊 Output length: 213 characters
+
+=== Completed Input 1 ===
+Time: 13:21:49
+🔥 GPU_0: 0.26GB allocated / 23.62GB total
+--------------------------------------------------
+
+📄 Processing input 2: length 57 characters
+⏱️  Generation time: 0.15s
+📊 Output length: 252 characters
+
+=== Completed Input 2 ===
+Time: 13:21:50
+🔥 GPU_0: 0.26GB allocated / 23.62GB total
+--------------------------------------------------
+
+📄 Processing input 3: length 680 characters
+⏱️  Generation time: 0.15s
+📊 Output length: 1005 characters
+
+=== Completed Input 3 ===
+Time: 13:21:51
+🔥 GPU_0: 0.26GB allocated / 23.62GB total
+--------------------------------------------------
+
+📄 Processing input 4: length 7 characters
+⏱️  Generation time: 0.15s
+📊 Output length: 197 characters
+
+=== Completed Input 4 ===
+Time: 13:21:53
+🔥 GPU_0: 0.26GB allocated / 23.62GB total
+--------------------------------------------------
+
+✅ Traditional method test complete!
+🕒 Total time: 0.91s
+📈 Average per request: 0.23s
+
+✅ Traditional method test complete
+
+==================================================
+⏸️  Press Enter to continue with vLLM PagedAttention method test...
+
+==================================================
+🔬 Phase 2: vLLM PagedAttention Method Test
+💡 Characteristics: Batch processing, paged KV-Cache management, on-demand memory allocation
+==================================================
+⏳ Running vLLM method test...
+⚠️  NVML unavailable, using PyTorch for GPU monitoring
+🔄 Starting vLLM method test...
+
+=== Initial State ===
+Time: 13:22:03
+🔥 GPU_0: 0.00GB allocated / 23.62GB total
+--------------------------------------------------
+INFO 07-20 13:22:05 [__init__.py:244] Automatically detected platform cuda.
+✅ vLLM import successful
+📥 Loading vLLM model...
+INFO 07-20 13:22:10 [config.py:841] This model supports multiple tasks: {'classify', 'generate', 'embed', 'reward'}. Defaulting to 'generate'.
+INFO 07-20 13:22:10 [config.py:3368] Downcasting torch.float32 to torch.bfloat16.
+INFO 07-20 13:22:10 [config.py:1472] Using max model len 512
+INFO 07-20 13:22:11 [config.py:2285] Chunked prefill is enabled with max_num_batched_tokens=8192.
+WARNING 07-20 13:22:11 [__init__.py:2662] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reason: CUDA is initialized
+INFO 07-20 13:22:13 [__init__.py:244] Automatically detected platform cuda.
+INFO 07-20 13:22:14 [core.py:526] Waiting for init message from front-end.
+INFO 07-20 13:22:14 [core.py:69] Initializing a V1 LLM engine (v0.9.2) with config: model='gpt2', speculative_config=None, tokenizer='gpt2', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config={}, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=512, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=gpt2, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=True, chunked_prefill_enabled=True, use_async_output_proc=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"max_capture_size":512,"local_cache_dir":null}
+INFO 07-20 13:22:15 [parallel_state.py:1076] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+WARNING 07-20 13:22:15 [topk_topp_sampler.py:59] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+INFO 07-20 13:22:15 [gpu_model_runner.py:1770] Starting to load model gpt2...
+INFO 07-20 13:22:15 [gpu_model_runner.py:1775] Loading model from scratch...
+INFO 07-20 13:22:15 [cuda.py:284] Using Flash Attention backend on V1 engine.
+INFO 07-20 13:22:15 [weight_utils.py:292] Using model weights format ['*.safetensors']
+INFO 07-20 13:22:16 [weight_utils.py:345] No model.safetensors.index.json found in remote.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00, 13.56it/s]
+
+INFO 07-20 13:22:16 [default_loader.py:272] Loading weights took 0.09 seconds
+INFO 07-20 13:22:16 [gpu_model_runner.py:1801] Model loading took 0.2378 GiB and 0.942424 seconds
+INFO 07-20 13:22:17 [backends.py:508] Using cache directory: /home/christina/.cache/vllm/torch_compile_cache/03f88f8d40/rank_0_0/backbone for vLLM's torch.compile
+INFO 07-20 13:22:17 [backends.py:519] Dynamo bytecode transform time: 0.99 s
+INFO 07-20 13:22:18 [backends.py:155] Directly load the compiled graph(s) for shape None from the cache, took 0.485 s
+INFO 07-20 13:22:18 [monitor.py:34] torch.compile takes 0.99 s in total
+INFO 07-20 13:22:19 [gpu_worker.py:232] Available KV cache memory: 18.10 GiB
+INFO 07-20 13:22:19 [kv_cache_utils.py:716] GPU KV cache size: 527,328 tokens
+INFO 07-20 13:22:19 [kv_cache_utils.py:720] Maximum concurrency for 512 tokens per request: 1029.94x
+Capturing CUDA graph shapes: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 67/67 [00:13<00:00,  4.90it/s]
+INFO 07-20 13:22:33 [gpu_model_runner.py:2326] Graph capturing finished in 14 secs, took 0.22 GiB
+INFO 07-20 13:22:33 [core.py:172] init engine (profile, create kv cache, warmup model) took 16.33 seconds
+
+=== vLLM Model Loading Complete ===
+Time: 13:22:33
+🔥 GPU_0: 0.00GB allocated / 23.62GB total
+--------------------------------------------------
+📝 Processing 4 inputs of different lengths...
+🚀 vLLM advantage: Batch processing all requests!
+Adding requests: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 1878.12it/s]
+Processed prompts: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 47.01it/s, est. speed input: 1507.22 toks/s, output: 2354.91 toks/s]
+
+=== Batch Generation Complete ===
+Time: 13:22:33
+🔥 GPU_0: 0.00GB allocated / 23.62GB total
+--------------------------------------------------
+
+📄 Input 1: 'Hello!...'
+📊 Original length: 6 characters
+📊 Generated length: 184 characters
+
+📄 Input 2: 'How are you doing today? I hope everything is goin...'
+📊 Original length: 57 characters
+📊 Generated length: 212 characters
+
+📄 Input 3: 'Tell me a story about artificial intelligence and ...'
+📊 Original length: 680 characters
+📊 Generated length: 261 characters
+
+📄 Input 4: 'Thanks!...'
+📊 Original length: 7 characters
+📊 Generated length: 211 characters
+
+✅ vLLM method test complete!
+🕒 Total generation time: 0.09s
+📈 Average per request: 0.02s
+🔥 Core advantage: Batch processing, more stable memory usage, supports PagedAttention!
+[rank0]:[W720 13:22:33.938021773 ProcessGroupNCCL.cpp:1476] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+
+✅ vLLM method test complete
+
+============================================================
+🎉 Experiment Complete! PagedAttention Principle Analysis
+============================================================
+
+🔍 Key Observations:
+1. 💾 GPU Memory Usage Patterns:
+   • Traditional method: Each sequence allocated by max length, memory waste exists
+   • PagedAttention: Pages allocated based on actual needs, higher memory utilization
+
+2. 📊 Memory Usage Stability:
+   • Traditional method: Memory usage fluctuates greatly with input length
+   • PagedAttention: More stable memory usage, better predictability
+
+3. ⚡ Processing Efficiency:
+   • Traditional method: Sequential request processing
+   • PagedAttention: Supports efficient batch processing
+
+💡 PagedAttention Core Innovations:
+🔹 Splits KV-Cache into fixed-size pages
+🔹 Allocates pages on-demand, avoiding pre-allocation of large contiguous memory blocks
+🔹 Supports dynamic memory management and better memory fragmentation handling
+🔹 Enables batch processing of variable-length sequences
+
+🎯 Practical Significance:
+📈 Supports larger batch sizes on same hardware
+💰 Reduces hardware costs for inference services
+🚀 Improves model service throughput
+```
